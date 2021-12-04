@@ -162,14 +162,8 @@ static int32_t bme280_compensate_T(int32_t adc_T)
 
 float bmp280_ulp_get_temp()
 {
-	uint16_t temp = temp_msb << 8 | temp_lsb;
-	printf("temp = %d\n", temp);
-	printf("ulp_prev_temp = %d\n", ulp_prev_temp);
-	ulp_prev_temp = temp;
 	uint32_t adc_T =
 	    (uint32_t)(((temp_msb << 16) | (temp_lsb << 8) | temp_xlsb) >> 4);
-
-	printf("ulp_t_diff = %d\n", ulp_t_diff);
 
 	if (adc_T == 0x80000 || adc_T == 0xfffff) {
 		return(0);
@@ -205,14 +199,8 @@ float bme280_compensate_P(int32_t adc_P)
 
 float bmp280_ulp_get_pres()
 {
-	uint16_t pres = pres_msb << 8 | pres_lsb;
-	printf("pres = %d\n", pres);
-	printf("ulp_prev_pres = %d\n", ulp_prev_pres);
-	ulp_prev_pres = pres;
 	uint32_t adc_P = 
 	    (uint32_t)(((pres_msb << 16) | (pres_lsb << 8) | pres_xlsb) >> 4);
-
-	printf("ulp_p_diff = %d\n", ulp_p_diff);
 
 	if (adc_P ==0x80000 || adc_P == 0xfffff) {
 		return(0);

@@ -31,8 +31,6 @@ stackEnd: .long 0
 .text
 .global entry
 entry:
-	move r3,stackEnd
-
 	/* halt if counter++ < period */
 	move r1,counter
 	ld r0,r1,0
@@ -42,6 +40,9 @@ entry:
 	ld r2,r1,0
 	sub r0,r2,r0
 	jumpr waitNext,0,gt
+
+	/* initialize the stack */
+	move r3,stackEnd
 
 	/* reset counter */
 	move r1,counter
@@ -62,6 +63,9 @@ testTemp:
 	ld r1,r1,0
 	or r0,r1,r0
 
+	/* save r0 on stack */
+	push r0
+
 	/* r0 = abs(r0 - prev_temp) */
 	move r1,prev_temp
 	ld r2,r1,0
@@ -74,11 +78,20 @@ testTemp:
 	ld r2,r1,0
 	sub r0,r0,r2
 
-	/* wakeUp if r0 < 0 */ 
+	/* continue if r0 < 0 */ 
 	jump testPres,OV
+
+	/* store new prev_temp*/
+	pop r0
+	move r1,prev_temp
+	st r0,r1,0
+
 	jump wakeUp
 
 testPres:
+	/* pop the stack */
+	add r3,r3,1
+
 	/* r0 = pres_msb << 8 | pres_lsb */
 	move r1,pres_msb
 	ld r0,r1,0
@@ -86,6 +99,9 @@ testPres:
 	move r1,pres_lsb
 	ld r1,r1,0
 	or r0,r1,r0
+
+	/* save r0 on stack */
+	push r0
 
 	/* r0 = abs(r0 - prev_pres) */
 	move r1,prev_pres
@@ -101,6 +117,11 @@ testPres:
 
 	/* waitNext if r0 < 0 */
 	jump waitNext,OV
+
+	/* store new prev_pres*/
+	pop r0
+	move r1,prev_pres
+	st r0,r1,0
 
 wakeUp:
 	/* Check if the system can be woken up */
