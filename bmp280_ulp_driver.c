@@ -34,8 +34,8 @@ extern const uint8_t ulp_bin_end[]
 #define T_SB 7
 #define POWER_MODE 1
 
-#define CONFIG(f)  ((T_SB <<5) + (f <<2))
-#define CTRL_MEAS(t, p) ((t <<5) + (p <<2) + POWER_MODE)
+#define CONFIG(f)  ((T_SB <<5) + ((f) <<2))
+#define CTRL_MEAS(t, p) (((t) <<5) + ((p) <<2) + POWER_MODE)
 
 /*
  * BMP280 calibration data read by the ULP
