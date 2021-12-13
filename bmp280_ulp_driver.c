@@ -1,9 +1,29 @@
 /*
- * This code is in the Public Domain (or CC0 licensed, at your option.)
+ * BSD 2-Clause License
  *
- * Unless required by applicable law or agreed to in writing, this
- * software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
- * CONDITIONS OF ANY KIND, either express or implied.
+ * Copyright (c) 2021, Robert David <robert.david@posteo.net>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -20,9 +40,6 @@
 
 #include "ulp_bmp280_ulp_driver.h"
 #include "bmp280_ulp_driver.h"
-/*
-#include "bmp280_ulp_driver_impl.h"
-*/
 
 
 extern const uint8_t ulp_bin_start[]
@@ -58,15 +75,6 @@ extern const uint8_t ulp_bin_end[]
 #define pres_msb ((uint8_t) ulp_pres_msb)
 #define pres_lsb ((uint8_t) ulp_pres_lsb)
 #define pres_xlsb ((uint8_t) ulp_pres_xlsb)
-
-/*
- * Configure how often the ULP should read the sensor. Note that the ULP
- * wakes up 10 times before it makes a reading, so if you want a reading
- * every 10 seconds, put 1 in the SECONDS_PER_ULP_WAKEUP or modify the line
- * in main.S that reads jumpr waitNext,10,lt // halt if r0 < 10
- */
-#define SLEEP_CYCLES_PER_S rtc_clk_slow_freq_get_hz() // cycles per second
-#define SECONDS_PER_ULP_WAKEUP 5
 
 int bmp280_ulp_setup( bmp280_ulp_config_t * config )
 {
